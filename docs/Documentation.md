@@ -8,7 +8,7 @@ Windows XP users may need to install the framework manual [from Microsoft](http:
 The application is provided as an executable within a .zip file. Simply extract the contents of the .zip file to any folder on your PC
 ## Usage
 
-    clmcontrol <Process Name> [-p](-p) [-pp](-pp) [-pa](-pa) [-s](-s) [-vm](-vm) [-mvm](-mvm) [-vu](-vu) [-mvu](-mvu) [-vd](-vd) [-mvd](-mvd) [-nt](-nt) [-pt](-pt) [-?](-_)
+    clmcontrol <Process Name> [-p](-p) [-pp](-pp) [-pa](-pa) [-pav](-pav) [-s](-s) [-vm](-vm) [-mvm](-mvm) [-vu](-vu) [-mvu](-mvu) [-vd](-vd) [-mvd](-mvd) [-nt](-nt) [-pt](-pt) [-?](-_)
 
 ## Parameters
 
@@ -16,6 +16,7 @@ The application is provided as an executable within a .zip file. Simply extract 
         -p:             Play
         -pp:            Toggle between play and pause
         -pa:            Pause
+        -pav:           Pause only when sound is playing
         -s:             Stop
         -vm:            Volume Mute
         -mvm:           Master Volume Mute
