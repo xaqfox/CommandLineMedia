@@ -11,7 +11,7 @@ This application was primarily designed for use with [Voice Attack](https://www.
 ## Usage
 
 ```
-clmcontrol <Process Name> [-p] [-pp] [-pa] [-s] [-vm] [-mvm] [-vu] [-mvu] [-vd] [-mvd] [-nt] [-pt] [-?]
+clmcontrol <Process Name> [-p] [-pp] [-pa] [-pav] [-s] [-vm] [-mvm] [-vu] [-mvu] [-vd] [-mvd] [-nt] [-pt] [-?]
 ```
 
 ## Note
