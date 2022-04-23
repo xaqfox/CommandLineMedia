@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CoreAudioAPI\IAudioMeterInformation.cs" />
     <Compile Include="CoreAudioAPI\IAudioSessionControl.cs" />
     <Compile Include="CoreAudioAPI\IAudioSessionControl2.cs" />
     <Compile Include="CoreAudioAPI\IAudioSessionEnumerator.cs" />

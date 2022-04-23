@@ -68,8 +68,9 @@ namespace CommandLineMediaController
                     // First command line argument must contain the process name or -?
                     Process selectedProcess = null;
                     ISimpleAudioVolume volumeControl = null;
+                    IAudioMeterInformation audioMeter = null;
 
-                    FindMatchingProcess(args[0], out selectedProcess, out volumeControl);
+                    FindMatchingProcess(args[0], out selectedProcess, out volumeControl, out audioMeter);
 
                     if (selectedProcess != null)
                     {
@@ -98,6 +99,17 @@ namespace CommandLineMediaController
                                     Console.WriteLine("Message Sent: Pause");
                                     break;
                                 }
+                                case "-pav":
+                                    {
+                                        var audioPeak = audioMeter.GetPeakValue();
+
+                                        if (audioPeak > 1E-8)
+                                        {
+                                            SendMessage(selectedProcess.MainWindowHandle, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_PAUSE);
+                                            Console.WriteLine("Message Sent: Pause");
+                                        }
+                                        break;
+                                    }
                                 case "-s":
                                 {
                                     SendMessage(selectedProcess.MainWindowHandle, WM_APPCOMMAND, 0, APPCOMMAND_MEDIA_STOP);
@@ -254,6 +266,7 @@ namespace CommandLineMediaController
             Console.WriteLine("\t-p:\t\tPlay");
             Console.WriteLine("\t-pp:\t\tToggle between play and pause");
             Console.WriteLine("\t-pa:\t\tPause");
+            Console.WriteLine("\t-pa:\t\tPause when sound is playing");
             Console.WriteLine("\t-s:\t\tStop");
             Console.WriteLine("\t-vm:\t\tVolume Mute");
             Console.WriteLine("\t-mvm:\t\tMaster Volume Mute");
@@ -272,10 +285,11 @@ namespace CommandLineMediaController
         /// <param name="processName">The name of the process to find</param>
         /// <param name="selectedProcess">The selected process</param>
         /// <param name="volumeControl">The volume control object</param>
-        private static void FindMatchingProcess(string processName, out Process selectedProcess, out ISimpleAudioVolume volumeControl)
+        private static void FindMatchingProcess(string processName, out Process selectedProcess, out ISimpleAudioVolume volumeControl, out IAudioMeterInformation audioMeter)
         {
             selectedProcess = null;
             volumeControl = null;
+            audioMeter = null;
 
             // First find the list of matching processes
             Process[] matchingProcesses = Process.GetProcessesByName(processName);
@@ -289,6 +303,7 @@ namespace CommandLineMediaController
                 IAudioSessionEnumerator sessionEnumerator = null;
                 object activatedObject = null;
                 Guid sessionManagerGuid = typeof(IAudioSessionManager2).GUID;
+                Guid audioMeterGuid = typeof(IAudioMeterInformation).GUID;
 
                 try
                 {
@@ -301,11 +316,15 @@ namespace CommandLineMediaController
                         deviceEnumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia, out device);
                     }
 
-                    // Get the Session Manager
+                    // Get the Session Manager and default AudioMeter 
                     if (device != null)
                     {
                         device.Activate(ref sessionManagerGuid, (uint)0, IntPtr.Zero, out activatedObject);
                         sessionManager = activatedObject as IAudioSessionManager2;
+                        activatedObject = null;
+
+                        device.Activate(ref audioMeterGuid, 0, IntPtr.Zero, out activatedObject);
+                        audioMeter = activatedObject as IAudioMeterInformation;
                         activatedObject = null;
                     }
 
