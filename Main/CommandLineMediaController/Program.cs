@@ -243,6 +243,11 @@ namespace CommandLineMediaController
                     {
                         Marshal.ReleaseComObject(volumeControl);
                     }
+
+                    if (audioMeter != null)
+                    {
+                        Marshal.ReleaseComObject(audioMeter);
+                    }
                 }
                 else
                 {
