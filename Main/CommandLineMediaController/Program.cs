@@ -328,9 +328,9 @@ namespace CommandLineMediaController
                         sessionManager = activatedObject as IAudioSessionManager2;
                         activatedObject = null;
 
-                        device.Activate(ref audioMeterGuid, 0, IntPtr.Zero, out activatedObject);
-                        audioMeter = activatedObject as IAudioMeterInformation;
-                        activatedObject = null;
+                        //device.Activate(ref audioMeterGuid, 0, IntPtr.Zero, out activatedObject);
+                        //audioMeter = activatedObject as IAudioMeterInformation;
+                        //activatedObject = null;
                     }
 
                     // Get the Session Enumerator
@@ -367,6 +367,7 @@ namespace CommandLineMediaController
                                     {
                                         selectedProcess = currentProcess;
                                         volumeControl = currentSessionControl as ISimpleAudioVolume;
+                                        audioMeter = currentSessionControl as IAudioMeterInformation;
                                         break;
                                     }
                                 }
